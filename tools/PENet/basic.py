@@ -272,6 +272,7 @@ class GeometryFeature(nn.Module):
         super(GeometryFeature, self).__init__()
 
     def forward(self, z, vnorm, unorm, h, w, ch, cw, fh, fw):
+        # print("vnorm {} shape {} ch {} fh {}" .format(vnorm, vnorm.shape, ch, fh))
         x = z*(0.5*h*(vnorm+1)-ch)/fh
         y = z*(0.5*w*(unorm+1)-cw)/fw
         return torch.cat((x, y, z),1)

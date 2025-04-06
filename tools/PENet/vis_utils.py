@@ -126,7 +126,8 @@ def get_fov_flag(pts_rect, img_shape, calib):
 def save_depth_as_points(depth, idx, root_path):
 
     file_idx = str(idx).zfill(6)
-    file_image_path = os.path.join(root_path, 'image_2', file_idx + '.png')
+    # file_image_path = os.path.join(root_path, 'image_2', file_idx + '.png') #### MJ
+    file_image_path = os.path.join(root_path, 'image_2', file_idx + '.jpg')
     file_velo_path = os.path.join(root_path, 'velodyne', file_idx + '.bin')
     file_calib = os.path.join(root_path, 'calib', file_idx + '.txt')
 
@@ -134,7 +135,8 @@ def save_depth_as_points(depth, idx, root_path):
 
     lidar = np.fromfile(str(file_velo_path), dtype=np.float32).reshape(-1, 4)
     image = np.array(io.imread(file_image_path), dtype=np.int32)
-    image = image[:352, :1216]
+    # image = image[:352, :1216] #### MJ
+    image = image[:480, :640]
 
     pts_rect = calib.lidar_to_rect(lidar[:, 0:3])
     fov_flag = get_fov_flag(pts_rect, image.shape, calib)
@@ -146,7 +148,8 @@ def save_depth_as_points(depth, idx, root_path):
         os.makedirs(paths)
 
     out_path = os.path.join(paths, file_idx + '.npy')
-    depth = depth.cpu().detach().numpy().reshape(352, 1216,1)
+    # depth = depth.cpu().detach().numpy().reshape(352, 1216,1)
+    depth = depth.cpu().detach().numpy().reshape(480, 640,1)
     final_points = depth2pointsrgbp(depth, image, calib, lidar)
     final_points = final_points.astype(np.float16)
     np.save(out_path, final_points)

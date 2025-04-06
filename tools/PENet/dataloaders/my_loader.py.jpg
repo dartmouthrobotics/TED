@@ -445,9 +445,7 @@ class MyLoader():
         calib = calibration_kitti.Calibration(file_calib)
         points = np.fromfile(str(file_velo_path), dtype=np.float32).reshape(-1, 4)
         image = np.array(io.imread(file_image_path), dtype=np.int32)
-        # image = image[:352, :1216]
-
-        image = image[:480, :640] #### MJ
+        image = image[:352, :1216]
 
         rgb, depth = load_depth_input(calib, image, points)
 

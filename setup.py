@@ -14,13 +14,32 @@ def get_git_commit_number():
     return git_commit_number
 
 
+# def make_cuda_ext(name, module, sources):
+#     cuda_ext = CUDAExtension(
+#         name='%s.%s' % (module, name),
+#         sources=[os.path.join(*module.split('.'), src) for src in sources]
+#     )
+#     return cuda_ext
+
 def make_cuda_ext(name, module, sources):
     cuda_ext = CUDAExtension(
         name='%s.%s' % (module, name),
-        sources=[os.path.join(*module.split('.'), src) for src in sources]
+        sources=[os.path.join(*module.split('.'), src) for src in sources],
+        extra_compile_args={
+            'cxx': ['-std=c++14'],
+            'nvcc': [
+                '-D__CUDA_NO_HALF_OPERATORS__',
+                '-D__CUDA_NO_HALF_CONVERSIONS__',
+                '-D__CUDA_NO_BFLOAT16_CONVERSIONS__',
+                '-D__CUDA_NO_HALF2_OPERATORS__',
+                '--expt-relaxed-constexpr',
+                # '-gencode=arch=compute_61,code=sm_61'  # Only keep supported architectures
+                '-gencode=arch=compute_80,code=sm_80'
+                # '-gencode=arch=compute_86,code=sm_86'  # REMOVE THIS LINE IF IT EXISTS
+            ]
+        }
     )
     return cuda_ext
-
 
 def write_version_to_file(version, target_file):
     with open(target_file, 'w') as f:

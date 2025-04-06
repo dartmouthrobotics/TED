@@ -119,14 +119,12 @@ class ENet(nn.Module):
         geo_s6 = None
 
         if self.args.convolutional_layer_encoding == "xyz":
-            param_v = 480
-            param_h = 640
-            geo_s1 = self.geofeature(d, vnorm, unorm, param_v, param_h, c352, c1216, f352, f1216)
-            geo_s2 = self.geofeature(d_s2, vnorm_s2, unorm_s2, param_v / 2, param_h / 2, c352, c1216, f352, f1216)
-            geo_s3 = self.geofeature(d_s3, vnorm_s3, unorm_s3, param_v / 4, param_h / 4, c352, c1216, f352, f1216)
-            geo_s4 = self.geofeature(d_s4, vnorm_s4, unorm_s4, param_v / 8, param_h / 8, c352, c1216, f352, f1216)
-            geo_s5 = self.geofeature(d_s5, vnorm_s5, unorm_s5, param_v / 16, param_h / 16, c352, c1216, f352, f1216)
-            geo_s6 = self.geofeature(d_s6, vnorm_s6, unorm_s6, param_v / 32, param_h / 32, c352, c1216, f352, f1216)
+            geo_s1 = self.geofeature(d, vnorm, unorm, 352, 1216, c352, c1216, f352, f1216)
+            geo_s2 = self.geofeature(d_s2, vnorm_s2, unorm_s2, 352 / 2, 1216 / 2, c352, c1216, f352, f1216)
+            geo_s3 = self.geofeature(d_s3, vnorm_s3, unorm_s3, 352 / 4, 1216 / 4, c352, c1216, f352, f1216)
+            geo_s4 = self.geofeature(d_s4, vnorm_s4, unorm_s4, 352 / 8, 1216 / 8, c352, c1216, f352, f1216)
+            geo_s5 = self.geofeature(d_s5, vnorm_s5, unorm_s5, 352 / 16, 1216 / 16, c352, c1216, f352, f1216)
+            geo_s6 = self.geofeature(d_s6, vnorm_s6, unorm_s6, 352 / 32, 1216 / 32, c352, c1216, f352, f1216)
         elif self.args.convolutional_layer_encoding == "uv":
             geo_s1 = torch.cat((vnorm, unorm), dim=1)
             geo_s2 = torch.cat((vnorm_s2, unorm_s2), dim=1)

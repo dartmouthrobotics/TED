@@ -36,9 +36,9 @@ def get_calib_from_file(filepath):
                 P2 = re.split(" ", line.strip())
                 P2 = np.array(P2[-12:], np.float32)
 
-            # if line[:2] == "P3": #### MJ
-            #     P3 = re.split(" ", line.strip())
-            #     P3 = np.array(P3[-12:], np.float32)
+            if line[:2] == "P3":
+                P3 = re.split(" ", line.strip())
+                P3 = np.array(P3[-12:], np.float32)
 
             if line[:14] == "Tr_velo_to_cam" or line[:11] == "Tr_velo_cam":
                 vtc_mat = re.split(" ", line.strip())
@@ -49,7 +49,7 @@ def get_calib_from_file(filepath):
                 R0 = np.array(R0[-9:], np.float32)
 
     data2["P2"]=P2.reshape(3, 4)
-    # data2["P3"]=P3.reshape(3, 4)
+    data2["P3"]=P3.reshape(3, 4)
     data2["Tr_velo2cam"]=vtc_mat.reshape(3, 4)
     data2["R0"]=R0.reshape(3, 3)
 

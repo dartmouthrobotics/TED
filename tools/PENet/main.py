@@ -136,9 +136,13 @@ parser.add_argument('--cpu', action="store_true", default=False, help='run on cp
 #random cropping
 parser.add_argument('--not-random-crop', action="store_true", default=False,
                     help='prohibit random cropping')
-parser.add_argument('-he', '--random-crop-height', default=320, type=int, metavar='N',
+# parser.add_argument('-he', '--random-crop-height', default=320, type=int, metavar='N',
+#                     help='random crop height')
+# parser.add_argument('-w', '--random-crop-width', default=1216, type=int, metavar='N',
+#                     help='random crop height')
+parser.add_argument('-he', '--random-crop-height', default=480, type=int, metavar='N',
                     help='random crop height')
-parser.add_argument('-w', '--random-crop-width', default=1216, type=int, metavar='N',
+parser.add_argument('-w', '--random-crop-width', default=640, type=int, metavar='N',
                     help='random crop height')
 
 #geometric encoding
@@ -156,8 +160,8 @@ args.result = os.path.join('..', 'results')
 args.use_rgb = ('rgb' in args.input)
 args.use_d = 'd' in args.input
 args.use_g = 'g' in args.input
-args.val_h = 352
-args.val_w = 1216
+args.val_h = 480
+args.val_w = 640
 print(args)
 
 cuda = torch.cuda.is_available() and not args.cpu
@@ -215,6 +219,7 @@ def iterate(mode, args, loader, model, optimizer, logger, epoch):
         #pred = model(batch_data)
         #gpu_time = time.time() - start
 
+        # print(f"{i}, {batch_data['rgb'].shape}")
         #'''
         if(args.network_model == 'e'):
             start = time.time()

@@ -64,8 +64,13 @@ class KittiDataset(DatasetTemplate):
         assert lidar_file.exists()
         return np.fromfile(str(lidar_file), dtype=np.float32).reshape(-1, 4)
 
+    # def get_image_shape(self, idx):
+    #     img_file = self.root_split_path / 'image_2' / ('%s.png' % idx)
+    #     assert img_file.exists()
+    #     return np.array(io.imread(img_file).shape[:2], dtype=np.int32)
+
     def get_image_shape(self, idx):
-        img_file = self.root_split_path / 'image_2' / ('%s.png' % idx)
+        img_file = self.root_split_path / 'image_2' / ('%s.jpg' % idx)
         assert img_file.exists()
         return np.array(io.imread(img_file).shape[:2], dtype=np.int32)
 
